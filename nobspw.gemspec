@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'nobspw/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "nobsps"
+  spec.name          = "nobspw"
   spec.version       = NOBSPW::VERSION
   spec.authors       = ["Carl Mercier"]
   spec.email         = ["foss@carlmercier.com"]
@@ -34,12 +34,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "simplecov", "~> 0.13"
-  spec.add_development_dependency "guard"
-  spec.add_development_dependency "guard-rspec"
-  spec.add_development_dependency "pry"
+  spec.add_development_dependency "guard", "~> 2.14"
+  spec.add_development_dependency "guard-rspec", "~> 4.7.3"
 
   if RUBY_PLATFORM =~ /darwin/
-    spec.add_development_dependency 'ruby_gntp'
+    spec.add_development_dependency 'ruby_gntp', "~> 0.3.4"
     spec.add_development_dependency 'terminal-notifier-guard', '~> 1.6.1'
   end
 end
