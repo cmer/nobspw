@@ -12,6 +12,8 @@ module NOBSPW
     def initialize(name: nil, username: nil, email: nil, password:)
       @name, @username, @email, @password = \
         name&.strip, username&.strip, email&.strip, password&.strip
+
+      raise ArgumentError.new("Password was not specified.") if password.nil? || password.strip.length == 0
       NOBSPW.configuration ||= NOBSPW::Configuration.new
     end
 
