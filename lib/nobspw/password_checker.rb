@@ -12,6 +12,7 @@ module NOBSPW
     def initialize(name: nil, username: nil, email: nil, password:)
       @name, @username, @email, @password = \
         name&.strip, username&.strip, email&.strip, password&.strip
+      NOBSPW.configuration ||= NOBSPW::Configuration.new
     end
 
     def strong?
