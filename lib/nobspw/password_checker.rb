@@ -53,9 +53,9 @@ module NOBSPW
     def domain_included_in_password?
       domain = NOBSPW.configuration.domain_name
       return nil unless domain
-
-      words_included_in_password?(domain) ||
-      remove_word_separators(words_included_in_password?(domain)).gsub(' ', '')
+      domain = strip_extension_from_domain(domain)
+      domain_without_separator = remove_word_separators(domain).gsub(' ', '')
+      words_included_in_password?([domain, domain_without_separator])
     end
 
     def password_blacklisted?
@@ -105,7 +105,11 @@ module NOBSPW
 
     def email_without_extension(email)
       name, domain, whatev = email.split("@", 3)
-      "#{name}@#{domain}"
+      "#{name}@#{strip_extension_from_domain(domain)}"
+    end
+
+    def strip_extension_from_domain(domain)
+      domain.split(".").first
     end
 
     def remove_word_separators(str)
