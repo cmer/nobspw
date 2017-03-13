@@ -14,7 +14,6 @@ module NOBSPW
         name&.strip, username&.strip, email&.strip, password&.strip
 
       raise ArgumentError.new("Password was not specified.") if password.nil? || password.strip.length == 0
-      NOBSPW.configuration ||= NOBSPW::Configuration.new
     end
 
     def strong?
