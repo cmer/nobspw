@@ -1,7 +1,9 @@
 require "bundler/setup"
-require "nobspw"
 require "pry"
 require "simplecov"
+require 'active_model'
+require 'i18n'
+require "nobspw"
 
 SimpleCov.start do
   coverage_dir 'spec/reports'
