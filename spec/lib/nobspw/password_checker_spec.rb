@@ -1,9 +1,5 @@
 require_relative '../../../lib/nobspw'
 
-NOBSPW.configure do |config|
-  config.blacklist = %w(thispasswordisblacklisted)
-end
-
 RSpec.describe NOBSPW::PasswordChecker do
   let(:pc) do
     NOBSPW::PasswordChecker.new password: password,
@@ -24,8 +20,8 @@ RSpec.describe NOBSPW::PasswordChecker do
       end
 
       it 'fails as it should' do
-        expect(pc).to_not be_strong
-        expect(pc.weak_password_reasons).to include(:password_too_short)
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:password_too_short)
       end
     end
 
@@ -36,8 +32,8 @@ RSpec.describe NOBSPW::PasswordChecker do
       end
 
       it 'fails as it should' do
-        expect(pc).to_not be_strong
-        expect(pc.weak_password_reasons).to include(:password_too_long)
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:password_too_long)
       end
     end
 
@@ -46,8 +42,8 @@ RSpec.describe NOBSPW::PasswordChecker do
       let(:name)     { 'John Draper'}
 
       it 'fails as it should' do
-        expect(pc).to_not be_strong
-        expect(pc.weak_password_reasons).to include(:name_included_in_password)
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:name_included_in_password)
       end
     end
 
@@ -56,8 +52,8 @@ RSpec.describe NOBSPW::PasswordChecker do
       let(:email)    { 'john.draper@microsoft.com'}
 
       it 'fails as it should' do
-        expect(pc).to_not be_strong
-        expect(pc.weak_password_reasons).to include(:email_included_in_password)
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:email_included_in_password)
       end
     end
 
@@ -67,8 +63,8 @@ RSpec.describe NOBSPW::PasswordChecker do
         let(:email)    { 'mark.draper@john-deere.com'}
 
         it 'fails as it should' do
-          expect(pc).to_not be_strong
-          expect(pc.weak_password_reasons).to include(:email_included_in_password)
+          expect(pc).to be_weak
+          expect(pc.reasons).to include(:email_included_in_password)
         end
       end
 
@@ -77,18 +73,24 @@ RSpec.describe NOBSPW::PasswordChecker do
         let(:email)    { 'elon.musk@teslamotors.com'}
 
         it 'fails as it should' do
-          expect(pc).to_not be_strong
-          expect(pc.weak_password_reasons).to include(:email_included_in_password)
+          expect(pc).to be_weak
+          expect(pc.reasons).to include(:email_included_in_password)
         end
       end
     end
 
     context 'password is blacklisted' do
+      before(:each) do
+        NOBSPW.configure do |config|
+          config.blacklist = %w(thispasswordisblacklisted)
+        end
+      end
+
       let(:password) { 'thispasswordisblacklisted' }
 
       it 'fails as it should' do
-        expect(pc).to_not be_strong
-        expect(pc.weak_password_reasons).to include(:password_blacklisted)
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:password_blacklisted)
       end
     end
 
@@ -96,8 +98,8 @@ RSpec.describe NOBSPW::PasswordChecker do
       let(:password) { 'password123' }
 
       it 'fails as it should' do
-        expect(pc).to_not be_strong
-        expect(pc.weak_password_reasons).to include(:password_too_common)
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:password_too_common)
       end
     end
 
@@ -105,8 +107,8 @@ RSpec.describe NOBSPW::PasswordChecker do
       let(:password) { '123xxxxxxx'}
 
       it 'fails as it should' do
-        expect(pc).to_not be_strong
-        expect(pc.weak_password_reasons).to include(:not_enough_unique_characters)
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:not_enough_unique_characters)
       end
     end
 
@@ -115,7 +117,7 @@ RSpec.describe NOBSPW::PasswordChecker do
 
       it 'is reported as strong' do
         expect(pc).to be_strong
-        expect(pc.weak_password_reasons).to be_empty
+        expect(pc.reasons).to be_empty
       end
     end
   end

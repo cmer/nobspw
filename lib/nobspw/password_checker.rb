@@ -21,10 +21,15 @@ module NOBSPW
       @strong
     end
 
+    def weak?
+      !strong?
+    end
+
     def weak_password_reasons
       check_password if @weak_password_reasons.nil?
       @weak_password_reasons
     end
+    alias_method :reasons, :weak_password_reasons
 
     private
 
