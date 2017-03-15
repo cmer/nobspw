@@ -1,13 +1,13 @@
 module NOBSPW
   module ValidationMethods
-    DEFAULT_VALIDATION_METHODS = %i(name_included_in_password
-                                    email_included_in_password
-                                    domain_included_in_password
-                                    password_too_short
-                                    password_too_long
-                                    not_enough_unique_characters
-                                    password_blacklisted
-                                    password_too_common)
+    DEFAULT_VALIDATION_METHODS = %i(name_included_in_password?
+                                    email_included_in_password?
+                                    domain_included_in_password?
+                                    password_too_short?
+                                    password_too_long?
+                                    not_enough_unique_characters?
+                                    password_not_allowed?
+                                    password_too_common?)
 
     private
 
@@ -31,7 +31,7 @@ module NOBSPW
       words_included_in_password?([domain, domain_without_separator])
     end
 
-    def password_blacklisted?
+    def password_not_allowed?
       return nil unless NOBSPW.configuration.blacklist
       NOBSPW.configuration.blacklist.include?(@password)
     end

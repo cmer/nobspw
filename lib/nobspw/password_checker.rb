@@ -30,7 +30,7 @@ module NOBSPW
       @weak_password_reasons = []
 
       NOBSPW.configuration.validation_methods.each do |method|
-        @weak_password_reasons << method if send("#{method}?")
+        @weak_password_reasons << method.to_s.sub(/\?$/, '').to_sym if send("#{method}")
       end
 
       @strong = @weak_password_reasons.empty?

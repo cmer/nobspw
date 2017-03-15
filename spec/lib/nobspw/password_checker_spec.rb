@@ -90,7 +90,7 @@ RSpec.describe NOBSPW::PasswordChecker do
 
       it 'fails as it should' do
         expect(pc).to be_weak
-        expect(pc.reasons).to include(:password_blacklisted)
+        expect(pc.reasons).to include(:password_not_allowed)
       end
     end
 

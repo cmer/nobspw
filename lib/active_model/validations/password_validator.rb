@@ -1,4 +1,16 @@
 class ActiveModel::Validations::PasswordValidator < ActiveModel::EachValidator
+  DEFAULT_ERROR_MESSAGES = {
+    name_included_in_password: 'is too similar to your name',
+    email_included_in_password: 'is too similar to your email',
+    domain_included_in_password: 'is too similar to this domain name',
+    password_too_short: 'is too short',
+    password_too_long: 'is too long',
+    not_enough_unique_characters: 'does not have enough unique characters',
+    password_not_allowed: 'is not allowed',
+    password_too_common: 'is too common',
+    fallback: 'is not valid'
+  }
+
   def validate_each(record, attribute, value)
     pc = NOBSPW::PasswordChecker.new password: record.send(attribute),
                                      email:    email_value(record),
@@ -9,6 +21,14 @@ class ActiveModel::Validations::PasswordValidator < ActiveModel::EachValidator
       record.errors[attribute] << get_message(reason)
     end
     pc.strong?
+  end
+
+  def error_messages
+    @error_messages ||= DEFAULT_ERROR_MESSAGES
+  end
+
+  def error_messages=(em)
+    @error_messages = em
   end
 
   private
@@ -57,26 +77,7 @@ class ActiveModel::Validations::PasswordValidator < ActiveModel::EachValidator
   end
 
   def get_message(reason)
-    case reason
-    when :name_included_in_password
-      I18n.t 'password_validator.is_too_similar_to_your_name', default: 'is too similar to your name'
-    when :email_included_in_password
-      I18n.t 'password_validator.is_too_similar_to_your_email', default: 'is too similar to your email'
-    when :domain_included_in_password
-      I18n.t 'password_validator.is_too_similar_to_this_domain_name', default: 'is too similar to this domain name'
-    when :password_too_short
-      I18n.t 'password_validator.is_too_short', default: 'is too short'
-    when :password_too_long
-      I18n.t 'password_validator.is_too_long', default: 'is too long'
-    when :password_blacklisted
-      I18n.t 'password_validator.is_not_allowed', default: 'is not allowed'
-    when :password_too_common
-      I18n.t 'password_validator.is_too_common', default: 'is too common'
-    when :not_enough_unique_characters
-      I18n.t 'password_validator.does_not_have_enough_unique_chars', default: 'does not have enough unique characters'
-    else
-      I18n.t 'password_validator.is_not_valid', default: 'is not valid'
-    end
+    I18n.t "password_validator.#{reason}", default: error_messages[reason] ||
+                                                    error_messages[:fallback]
   end
-
 end

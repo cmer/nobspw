@@ -75,9 +75,9 @@ validates :password, presence: true, password: true, if: -> { new_record? || cha
 
 PasswordValidator will try to guess the correct field name for each `PasswordChecker` argument as follow:
 
-- `username`: `username user_name user screenname screen_name`
-- `name`: `name full_name first_name+last_name`
-- `email`: `email email_address`
+- `username`: `username` `user_name` `user` `screenname` `screen_name`
+- `name`: `name` `full_name` `first_name+last_name`
+- `email`: `email` `email_address`
 
 If you have field names different than above, you can tell `PasswordValidator` which fields to use for specific attributes:
 
@@ -88,22 +88,60 @@ validates :password, presence: true,
           if: -> { new_record? || changes[:password] }
 ```
 
-# Checks
+## Validations
 
-NOBSPW currently checks for the following, in this order:
+NOBSPW currently validates for the following, in this order:
 
 ```ruby
-:name_included_in_password
-:email_included_in_password
-:domain_included_in_password
-:password_too_short
-:password_too_long
-:not_enough_unique_characters
-:password_blacklisted
-:password_too_common
+name_included_in_password?
+email_included_in_password?
+domain_included_in_password?
+password_too_short?
+password_too_long?
+not_enough_unique_characters?
+password_not_allowed?
+password_too_common?
+```
+If any of these tests fail, they'll be returned by `#reasons`, or with Rails, they'll be added to `errors[:password]`.
+
+
+## Custom Validations
+
+It is possible and easy to add your own validations, or remove default ones.
+
+### Adding a custom validation
+
+```ruby
+module NOBSPW::ValidationMethods
+  def contains_letter_a?
+    # This is obviously a silly validation. Don't do this!
+    # If method returns true, it means that it FAILED validation.
+    # For example, it does contain the letter a and it's not considered acceptable.
+    !!@password.downcase.index('a')
+  end
+end
+
+NOBSPW.configuration.validation_methods << :contains_letter_a?
+
+# if using the Rails validator, you also need to define the error message:
+ActiveModel::Validations::PasswordValidator.error_messages[:contains_letter_a] = \
+  'contains an unacceptable character'
+
 ```
 
-If any of these tests fail, they'll be returned by `#reasons`, or with Rails, they'll be added to `errors[:password]`.
+### Removing a built-in validation
+
+```ruby
+NOBSPW.configuration.validation_methods.delete(:domain_included_in_password?)
+```
+
+### Localization
+
+You can localize all error messages, including custom ones, using I18n.
+
+See `PasswordValidator#get_message` and `PasswordValidator#DEFAULT_ERROR_MESSAGES` for implementation details.
+
+
 
 ## License
 
