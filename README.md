@@ -1,5 +1,7 @@
 # NOBSPW - No Bullshit Password strength checker
 
+[![Build Status](https://travis-ci.org/cmer/nobspw.svg?branch=master)](https://travis-ci.org/cmer/nobspw)
+
 NOBSPW is simple, no non-sense password strength checker written in Ruby. It does NOT validate against [bullshit password rules](https://twitter.com/codinghorror/status/631238409269309440?ref_src=twsrc%5Etfw) such as:
 
 - must contain uppercase _(bullshit!)_
