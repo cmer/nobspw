@@ -2,6 +2,7 @@ require "nobspw/version"
 
 module NOBSPW
   autoload :PasswordChecker, 'nobspw/password_checker'
+  autoload :ValidationMethods, 'nobspw/validation_methods'
   autoload :Configuration, 'nobspw/configuration'
 
   if (defined?(::ActiveModel) && ActiveModel::VERSION::MAJOR >= 4) && defined?(I18n)

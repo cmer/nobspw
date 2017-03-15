@@ -7,6 +7,7 @@ module NOBSPW
     attr_accessor :grep_path
     attr_accessor :domain_name
     attr_accessor :blacklist
+    attr_accessor :validation_methods
 
     def initialize
       @min_password_length      = 10
@@ -16,6 +17,7 @@ module NOBSPW
       @grep_path                = `which grep`.strip
       @domain_name              = nil
       @blacklist                = nil
+      @validation_methods       = NOBSPW::ValidationMethods::DEFAULT_VALIDATION_METHODS
     end
   end
 end
