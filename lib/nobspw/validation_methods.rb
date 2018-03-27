@@ -75,16 +75,16 @@ module NOBSPW
     # Helper methods
 
     def email_without_extension(email)
-      name, domain, whatev = email.split("@", 3)
+      name, domain, whatev = email&.split("@", 3)
       "#{name}@#{strip_extension_from_domain(domain)}"
     end
 
     def strip_extension_from_domain(domain)
-      domain.split(".").first
+      domain&.split(".")&.first
     end
 
     def remove_word_separators(str)
-      str.gsub(/-|_|\.|\'|\"|\@/, ' ')
+      str&.gsub(/-|_|\.|\'|\"|\@/, ' ')
     end
 
   end

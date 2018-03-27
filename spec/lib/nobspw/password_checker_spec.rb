@@ -79,6 +79,45 @@ RSpec.describe NOBSPW::PasswordChecker do
       end
     end
 
+    context 'email is not valid' do
+      context 'email is nil' do
+        let(:email) { nil }
+
+        it 'ignores the malformed email address' do
+          expect(pc).to be_strong
+          expect(pc.reasons).to be_empty
+        end
+      end
+
+      context 'email is missing @' do
+        let(:email) { 'johndoeatexample.com' }
+
+        it 'ignores the malformed email address' do
+          expect(pc).to be_strong
+          expect(pc.reasons).to be_empty
+        end
+      end
+
+      context 'email is a random email-like string' do
+        let(:email) { 'johndoe at example.com' }
+
+        it 'ignores the malformed email address' do
+          expect(pc).to be_strong
+          expect(pc.reasons).to be_empty
+        end
+      end
+
+      context 'email is gibberish' do
+        let(:email) { ',jbsi7tyhbd8ygudsudsig8t6yugwe,.cx3' }
+
+        it 'ignores the malformed email address' do
+          expect(pc).to be_strong
+          expect(pc.reasons).to be_empty
+        end
+      end
+
+    end
+
     context 'password is blacklisted' do
       before(:each) do
         NOBSPW.configure do |config|
