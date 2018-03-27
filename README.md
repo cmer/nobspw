@@ -82,8 +82,7 @@ PasswordValidator will try to guess the correct field name for each `PasswordChe
 If you have field names different than above, you can tell `PasswordValidator` which fields to use for specific attributes:
 
 ```ruby
-validates :password, presence: true,
-                     password: { :name => :customer_name,
+validates :password, password: { :name => :customer_name,
                                  :email => :electronic_address },
           if: -> { new_record? || changes[:password] }
 ```
@@ -93,6 +92,7 @@ validates :password, presence: true,
 NOBSPW currently validates for the following, in this order:
 
 ```ruby
+password_empty?
 name_included_in_password?
 email_included_in_password?
 domain_included_in_password?
