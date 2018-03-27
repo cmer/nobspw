@@ -8,6 +8,7 @@ module NOBSPW
     attr_accessor :domain_name
     attr_accessor :blacklist
     attr_accessor :validation_methods
+    attr_accessor :interrupt_validation_for
 
     def initialize
       @min_password_length      = 10
@@ -18,6 +19,7 @@ module NOBSPW
       @domain_name              = nil
       @blacklist                = nil
       @validation_methods       = NOBSPW::ValidationMethods::DEFAULT_VALIDATION_METHODS
+      @interrupt_validation_for = NOBSPW::ValidationMethods::INTERRUPT_VALIDATION_FOR
     end
   end
 end

@@ -1,6 +1,7 @@
 module NOBSPW
   module ValidationMethods
-    DEFAULT_VALIDATION_METHODS = %i(name_included_in_password?
+    DEFAULT_VALIDATION_METHODS = %i(password_empty?
+                                    name_included_in_password?
                                     email_included_in_password?
                                     domain_included_in_password?
                                     password_too_short?
@@ -9,7 +10,13 @@ module NOBSPW
                                     password_not_allowed?
                                     password_too_common?)
 
+    INTERRUPT_VALIDATION_FOR   = %i(password_empty?)
+
     private
+
+    def password_empty?
+      @password.nil? || @password.strip == ''
+    end
 
     def name_included_in_password?
       return nil unless @name

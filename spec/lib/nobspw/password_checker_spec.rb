@@ -13,6 +13,26 @@ RSpec.describe NOBSPW::PasswordChecker do
   let(:email)    { 'james.smith@microsoft.co.uk' }
 
   describe "determine if password is strong or weak" do
+    context 'password is nil' do
+      let(:password) { nil }
+
+      it 'fails as it should' do
+        expect(pc).to be_weak
+        expect(pc.reasons.length).to eq 1
+        expect(pc.reasons).to include(:password_empty)
+      end
+    end
+
+    context 'password is empty string' do
+      let(:password) { '' }
+
+      it 'fails as it should' do
+        expect(pc).to be_weak
+        expect(pc.reasons.length).to eq 1
+        expect(pc.reasons).to include(:password_empty)
+      end
+    end
+
     context 'password is too short' do
       let(:password) do
         length = NOBSPW.configuration.min_password_length - 1
