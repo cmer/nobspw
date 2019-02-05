@@ -67,6 +67,16 @@ RSpec.describe NOBSPW::PasswordChecker do
       end
     end
 
+    context 'username is included in password' do
+      let(:password) { 'iamjohnthegreat' }
+      let(:username) { 'johnthegreat'}
+
+      it 'fails as it should' do
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:username_included_in_password)
+      end
+    end
+
     context 'email username is included in password' do
       let(:password) { 'iamjohnthegreat' }
       let(:email)    { 'john.draper@microsoft.com'}
