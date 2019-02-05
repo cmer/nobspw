@@ -7,6 +7,7 @@ module NOBSPW
     attr_accessor :grep_path
     attr_accessor :domain_name
     attr_accessor :blacklist
+    attr_accessor :banned_words
     attr_accessor :validation_methods
     attr_accessor :interrupt_validation_for
 
@@ -18,6 +19,7 @@ module NOBSPW
       @grep_path                = `which grep`.strip
       @domain_name              = nil
       @blacklist                = nil
+      @banned_words             = nil
       @validation_methods       = NOBSPW::ValidationMethods::DEFAULT_VALIDATION_METHODS
       @interrupt_validation_for = NOBSPW::ValidationMethods::INTERRUPT_VALIDATION_FOR
     end

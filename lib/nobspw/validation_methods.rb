@@ -9,6 +9,7 @@ module NOBSPW
                                     password_too_long?
                                     not_enough_unique_characters?
                                     password_not_allowed?
+                                    banned_word_present?
                                     password_too_common?)
 
     INTERRUPT_VALIDATION_FOR   = %i(password_empty?)
@@ -48,6 +49,11 @@ module NOBSPW
     def password_not_allowed?
       return nil unless NOBSPW.configuration.blacklist
       NOBSPW.configuration.blacklist.include?(@password)
+    end
+
+    def banned_word_present?
+      return nil unless NOBSPW.configuration.banned_words
+      words_included_in_password?(NOBSPW.configuration.banned_words)
     end
 
     def password_too_short?

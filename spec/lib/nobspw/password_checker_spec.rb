@@ -181,6 +181,21 @@ RSpec.describe NOBSPW::PasswordChecker do
       end
     end
 
+    context 'password contains banned work' do
+      before(:each) do
+        NOBSPW.configure do |config|
+          config.banned_words = %w(password banana)
+        end
+      end
+
+      let(:password) { 'thispasswordisblacklisted' }
+
+      it 'fails as it should' do
+        expect(pc).to be_weak
+        expect(pc.reasons).to include(:banned_word_present)
+      end
+    end
+
     context 'perfectly fine password' do
       let(:password) { 'this-is-a-valid-password' }
 

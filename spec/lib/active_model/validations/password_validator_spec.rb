@@ -6,6 +6,7 @@ RSpec.describe ActiveModel::Validations::PasswordValidator do
     NOBSPW.configure do |config|
       config.domain_name = 'example.org'
       config.blacklist = %w(thispasswordisblacklisted)
+      config.banned_words = %w(banana)
     end
   }
 
@@ -90,6 +91,14 @@ RSpec.describe ActiveModel::Validations::PasswordValidator do
         user.password = 'thispasswordisblacklisted'
         expect(user).to_not be_valid
         expect(user.errors[:password]).to include 'is not allowed'
+      end
+    end
+
+    context 'banned word' do
+      it 'is a weak password' do
+        user.password = 'thispasswordisbanana'
+        expect(user).to_not be_valid
+        expect(user.errors[:password]).to include 'contains a banned word'
       end
     end
 

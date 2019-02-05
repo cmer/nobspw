@@ -8,6 +8,7 @@ class ActiveModel::Validations::PasswordValidator < ActiveModel::EachValidator
     password_too_long: 'is too long',
     not_enough_unique_characters: 'does not have enough unique characters',
     password_not_allowed: 'is not allowed',
+    banned_word_present: 'contains a banned word',
     password_too_common: 'is too common',
     fallback: 'is not valid'
   }
