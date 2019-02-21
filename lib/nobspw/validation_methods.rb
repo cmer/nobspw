@@ -65,10 +65,10 @@ module NOBSPW
     end
 
     def password_too_common?
-      res = File.foreach(NOBSPW.configuration.dictionary_path) do |line|
-        return true if line =~ /^#{@password}$/
-      end
-      return false
+      occurrences = File
+                      .open(NOBSPW.configuration.dictionary_path)
+                      .grep(/^#{@password}$/)
+      return occurrences.any?
     end
 
     # Helper methods
