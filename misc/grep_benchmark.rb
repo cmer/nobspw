@@ -14,7 +14,7 @@ password = 'swordfish'
 
 def shell_grep(password)
   password = Shellwords.escape(password)
-	"/usr/bin/grep '^#{password}$' #{DICTIONARY_PATH}"
+  "/usr/bin/grep '^#{password}$' #{DICTIONARY_PATH}"
   $?.exitstatus == 0
 end
 
@@ -41,7 +41,6 @@ rescue Subprocess::NonZeroExit
 end
 
 Benchmark.bm do |benchmark|
-
   benchmark.report("Shell       ") do
     ITERATIONS.times { shell_grep(password) }
   end
