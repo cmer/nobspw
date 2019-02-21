@@ -151,17 +151,29 @@ RSpec.describe NOBSPW::PasswordChecker do
     context 'password is blacklisted' do
       before(:each) do
         NOBSPW.configure do |config|
-          config.blacklist = %w(thispasswordisblacklisted)
+          config.blacklist = ['thispasswordisblacklisted', /middle/i]
         end
       end
 
-      let(:password) { 'thispasswordisblacklisted' }
+      context 'match against string' do
+        let(:password) { 'thispasswordisblacklisted' }
 
-      it 'fails as it should' do
-        expect(pc).to be_weak
-        expect(pc.reasons).to include(:password_not_allowed)
+        it 'fails as it should' do
+          expect(pc).to be_weak
+          expect(pc.reasons).to include(:password_not_allowed)
+        end
+      end
+
+      context 'match against regex' do
+        let(:password) { 'SomewhereInTheMiddleOfMyPassword' }
+
+        it 'fails as it should' do
+          expect(pc).to be_weak
+          expect(pc.reasons).to include(:password_not_allowed)
+        end
       end
     end
+
 
     context 'password is in common password dictionary' do
       let(:password) { 'password123' }

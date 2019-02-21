@@ -61,7 +61,7 @@ Optionally, you can configure some options:
     config.dictionary_path = 'path/to/dictionary.txt'
     config.grep_path = '/usr/bin/grep'
     config.domain_name = 'mywebsitedomain.com' # it is recommended you configure this
-    config.blacklist = ['this_password_is_not_allowed']
+    config.blacklist = ['this_password_is_not_allowed', /password/]
   end
 ```
 

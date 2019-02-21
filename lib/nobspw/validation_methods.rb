@@ -47,7 +47,16 @@ module NOBSPW
 
     def password_not_allowed?
       return nil unless NOBSPW.configuration.blacklist
-      NOBSPW.configuration.blacklist.include?(@password)
+
+      NOBSPW.configuration.blacklist.each do |expression|
+        if expression.is_a?(Regexp)
+          return true if @password.match?(expression)
+        else
+          return true if expression.to_s == @password
+        end
+      end
+
+      false
     end
 
     def password_too_short?

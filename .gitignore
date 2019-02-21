@@ -10,3 +10,4 @@
 /coverage/
 /spec/examples.txt
 *.gem
+.byebug_history
