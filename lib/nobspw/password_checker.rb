@@ -37,8 +37,5 @@ module NOBSPW
       @strong = @weak_password_reasons.empty?
     end
 
-    def grep_command(path)
-      "#{NOBSPW.configuration.grep_path} '^#{@password}$' #{path}"
-    end
   end
 end

@@ -65,18 +65,10 @@ module NOBSPW
     end
 
     def password_too_common?
-      `#{grep_command(NOBSPW.configuration.dictionary_path)}`
-
-      case $?.exitstatus
-      when 0
-        true
-      when 1
-        false
-      when 127
-        raise StandardError.new("Grep not found at: #{NOBSPW.configuration.grep_path}")
-      else
-        false
+      res = File.foreach(NOBSPW.configuration.dictionary_path) do |line|
+        return true if line =~ /^#{@password}$/
       end
+      return false
     end
 
     # Helper methods
