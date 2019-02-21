@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec", "~> 4.7.3"
   spec.add_development_dependency "activemodel", "~> 5.0"
   spec.add_development_dependency "i18n", "~> 0.8.1"
+  spec.add_development_dependency "subprocess"
   spec.add_development_dependency "byebug"
 
   if RUBY_PLATFORM =~ /darwin/
