@@ -1,6 +1,7 @@
 class ActiveModel::Validations::PasswordValidator < ActiveModel::EachValidator
   DEFAULT_ERROR_MESSAGES = {
     name_included_in_password: 'is too similar to your name',
+    username_included_in_password: 'is too similar to your username',
     email_included_in_password: 'is too similar to your email',
     domain_included_in_password: 'is too similar to this domain name',
     password_too_short: 'is too short',

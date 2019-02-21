@@ -61,6 +61,14 @@ RSpec.describe ActiveModel::Validations::PasswordValidator do
       end
     end
 
+    context "similar to user's username" do
+      it 'is a weak password' do
+        user.password = 'iamcoolboy13'
+        expect(user).to_not be_valid
+        expect(user.errors[:password]).to include 'is too similar to your username'
+      end
+    end
+
     context "similar to user's email" do
       it 'is a weak password' do
         user.password = 'microsoftworld'

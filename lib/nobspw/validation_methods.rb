@@ -2,6 +2,7 @@ module NOBSPW
   module ValidationMethods
     DEFAULT_VALIDATION_METHODS = %i(password_empty?
                                     name_included_in_password?
+                                    username_included_in_password?
                                     email_included_in_password?
                                     domain_included_in_password?
                                     password_too_short?
@@ -21,6 +22,12 @@ module NOBSPW
     def name_included_in_password?
       return nil unless @name
       words = remove_word_separators(@name).split(' ')
+      words_included_in_password?(words)
+    end
+
+    def username_included_in_password?
+      return nil unless @username
+      words = remove_word_separators(@username).split(' ')
       words_included_in_password?(words)
     end
 
