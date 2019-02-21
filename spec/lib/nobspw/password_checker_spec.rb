@@ -174,13 +174,21 @@ RSpec.describe NOBSPW::PasswordChecker do
       end
     end
 
-
     context 'password is in common password dictionary' do
       let(:password) { 'password123' }
 
       it 'fails as it should' do
         expect(pc).to be_weak
         expect(pc.reasons).to include(:password_too_common)
+      end
+    end
+
+    context 'password contains strong password with illegal shell characters' do
+      let(:password) { '^password123\./$%!@#!^^$$'}
+
+      it 'is reported as strong' do
+        expect(pc).to be_strong
+        expect(pc.reasons).to be_empty
       end
     end
 
