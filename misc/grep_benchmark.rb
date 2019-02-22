@@ -8,13 +8,13 @@ require 'stringio'
 
 ITERATIONS         = 100
 DICTIONARY_PATH    = File.join(File.dirname(__FILE__), '..', 'lib/db/dictionary.txt')
-STDIN_GREP_COMMAND = ['/usr/bin/grep', '-f', '/dev/stdin', DICTIONARY_PATH]
+STDIN_GREP_COMMAND = ['/usr/bin/grep', '-m 1', '-f', '/dev/stdin', DICTIONARY_PATH]
 
 password = 'swordfish'
 
 def shell_grep(password)
   password = Shellwords.escape(password)
-  `/usr/bin/grep '^#{password}$' #{DICTIONARY_PATH}`
+  `/usr/bin/grep -m 1 '^#{password}$' #{DICTIONARY_PATH}`
   $?.exitstatus == 0
 end
 
