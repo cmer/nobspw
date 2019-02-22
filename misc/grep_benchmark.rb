@@ -14,7 +14,7 @@ password = 'swordfish'
 
 def shell_grep(password)
   password = Shellwords.escape(password)
-  "/usr/bin/grep '^#{password}$' #{DICTIONARY_PATH}"
+  `/usr/bin/grep '^#{password}$' #{DICTIONARY_PATH}`
   $?.exitstatus == 0
 end
 
@@ -44,12 +44,23 @@ def ruby_grep(password)
   File.open(DICTIONARY_PATH).grep(/^#{password}$/)
 end
 
+def ruby_loop(password)
+  File.open(DICTIONARY_PATH).read_line do |l|
+    return true if l.match?(/^#{password}$/)
+  end
+  false
+end
+
 Benchmark.bm(17) do |benchmark|
   benchmark.report("Shell") do
     ITERATIONS.times { shell_grep(password) }
   end
 
-  benchmark.report("Ruby") do
+  benchmark.report("Ruby Grep") do
+    ITERATIONS.times { ruby_grep(password) }
+  end
+
+  benchmark.report("Ruby Loop") do
     ITERATIONS.times { ruby_grep(password) }
   end
 
