@@ -4,7 +4,6 @@ require 'benchmark'
 require 'shellwords'
 require 'open3'
 require 'subprocess'
-require 'stringio'
 
 ITERATIONS         = 100
 DICTIONARY_PATH    = File.join(File.dirname(__FILE__), '..', 'lib/db/dictionary.txt')

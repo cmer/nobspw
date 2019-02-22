@@ -1,3 +1,6 @@
+require 'shellwords'
+require 'open3'
+
 module NOBSPW
   module ValidationMethods
     DEFAULT_VALIDATION_METHODS = %i(password_empty?
@@ -12,6 +15,8 @@ module NOBSPW
                                     password_too_common?)
 
     INTERRUPT_VALIDATION_FOR   = %i(password_empty?)
+    STDIN_GREP_COMMAND         = ['/usr/bin/grep', '-m 1', '-f', '/dev/stdin',
+                                  NOBSPW.configuration.dictionary_path]
 
     private
 
@@ -81,21 +86,26 @@ module NOBSPW
     end
 
     def password_too_common?
-      `#{grep_command(NOBSPW.configuration.dictionary_path)}`
-
-      case $?.exitstatus
-      when 0
-        true
-      when 1
-        false
-      when 127
-        raise StandardError.new("Grep not found at: #{NOBSPW.configuration.grep_path}")
-      else
-        false
-      end
+      NOBSPW.configuration.use_ruby_grep ? ruby_grep : shell_grep
     end
 
     # Helper methods
+
+    def shell_grep
+      raise StandardError.new("Grep not found at: #{NOBSPW.configuration.grep_path}") \
+        if !File.exist?(NOBSPW.configuration.grep_path)
+
+      output = Open3.popen3(STDIN_GREP_COMMAND.join(" "), out: '/dev/null') { |stdin, stdout, stderr, wait_thr|
+        stdin.puts "^#{excaped_password}$"
+        stdin.close
+        wait_thr.value
+      }
+      output.success?
+    end
+
+    def ruby_grep
+      File.open(NOBSPW.configuration.dictionary_path).grep(/^#{escaped_password}$/).present?
+    end
 
     def email_without_extension(email)
       name, domain, whatev = email&.split("@", 3)
@@ -110,5 +120,8 @@ module NOBSPW
       str&.gsub(/-|_|\.|\'|\"|\@/, ' ')
     end
 
+    def escaped_password(password = @password)
+      Shellwords.escape(password)
+    end
   end
 end

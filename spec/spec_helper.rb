@@ -20,6 +20,12 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
+  config.before(:each) do
+    NOBSPW.configure do |config|
+      config.use_ruby_grep = true
+    end
+  end
+
   config.after(:each) do
     NOBSPW.configuration = nil
   end

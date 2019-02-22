@@ -37,10 +37,5 @@ module NOBSPW
 
       @strong = @weak_password_reasons.empty?
     end
-
-    def grep_command(path)
-      escaped_pw = Shellwords.escape(@password)
-      "#{NOBSPW.configuration.grep_path} '^#{escaped_pw}$' #{path}"
-    end
   end
 end

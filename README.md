@@ -60,6 +60,7 @@ Optionally, you can configure some options:
     config.min_unique_characters = 5
     config.dictionary_path = 'path/to/dictionary.txt'
     config.grep_path = '/usr/bin/grep'
+    config.use_ruby_grep = false # Defaults to false; slower when true. Uses Ruby's internal Grep method instead of shelling out.
     config.domain_name = 'mywebsitedomain.com' # it is recommended you configure this
     config.blacklist = ['this_password_is_not_allowed', /password/]
   end

@@ -177,9 +177,24 @@ RSpec.describe NOBSPW::PasswordChecker do
     context 'password is in common password dictionary' do
       let(:password) { 'password123' }
 
-      it 'fails as it should' do
-        expect(pc).to be_weak
-        expect(pc.reasons).to include(:password_too_common)
+      context 'use shell grep' do
+        it 'fails as it should' do
+          expect(pc).to be_weak
+          expect(pc.reasons).to include(:password_too_common)
+        end
+      end
+
+      context 'use Ruby grep' do
+        before {
+          NOBSPW.configure do |config|
+            config.use_ruby_grep = true
+          end
+        }
+
+        it 'fails as it should' do
+          expect(pc).to be_weak
+          expect(pc.reasons).to include(:password_too_common)
+        end
       end
     end
 
