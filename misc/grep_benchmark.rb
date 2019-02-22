@@ -40,20 +40,24 @@ rescue Subprocess::NonZeroExit
   false
 end
 
-Benchmark.bm do |benchmark|
-  benchmark.report("Shell       ") do
+def ruby_grep(password)
+  File.open(DICTIONARY_PATH).grep(/^#{password}$/)
+end
+
+Benchmark.bm(17) do |benchmark|
+  benchmark.report("Shell") do
     ITERATIONS.times { shell_grep(password) }
   end
 
-  benchmark.report("Ruby        ") do
-    ITERATIONS.times { File.open(DICTIONARY_PATH).grep(/^#{password}$/) }
+  benchmark.report("Ruby") do
+    ITERATIONS.times { ruby_grep(password) }
   end
 
-  benchmark.report("Open3 stdin ") do
+  benchmark.report("Open3 stdin") do
     ITERATIONS.times { shell_grep_open3(password) }
   end
 
-  benchmark.report("Subprocess  ") do
+  benchmark.report("Subprocess stdin") do
     ITERATIONS.times { shell_grep_subprocess(password) }
   end
 end
