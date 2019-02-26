@@ -96,7 +96,7 @@ module NOBSPW
         if !File.exist?(NOBSPW.configuration.grep_path)
 
       output = Open3.popen3(STDIN_GREP_COMMAND.join(" "), out: '/dev/null') { |stdin, stdout, stderr, wait_thr|
-        stdin.puts "^#{excaped_password}$"
+        stdin.puts "^#{escaped_password}$"
         stdin.close
         wait_thr.value
       }
