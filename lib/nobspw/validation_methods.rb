@@ -15,7 +15,7 @@ module NOBSPW
                                     password_too_common?)
 
     INTERRUPT_VALIDATION_FOR   = %i(password_empty?)
-    STDIN_GREP_COMMAND         = ['/usr/bin/grep', '-m 1', '-f', '/dev/stdin',
+    STDIN_GREP_COMMAND         = [NOBSPW.configuration.grep_path, '-m 1', '-f', '/dev/stdin',
                                   NOBSPW.configuration.dictionary_path]
 
     private
