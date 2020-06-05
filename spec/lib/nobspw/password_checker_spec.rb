@@ -47,8 +47,9 @@ RSpec.describe NOBSPW::PasswordChecker do
 
     context 'password is too long' do
       let(:password) do
+        alphabet = ('0'..'9').to_a + ('a'..'z').to_a
         length = NOBSPW.configuration.max_password_length + 1
-        rand(36**length).to_s(36)
+        length.times.map { alphabet.sample }.join
       end
 
       it 'fails as it should' do
