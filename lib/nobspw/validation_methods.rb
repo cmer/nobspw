@@ -104,7 +104,7 @@ module NOBSPW
     end
 
     def ruby_grep
-      File.open(NOBSPW.configuration.dictionary_path).grep(/^#{escaped_password}$/).present?
+      File.open(NOBSPW.configuration.dictionary_path).grep(/^#{escaped_password}$/).any?
     end
 
     def email_without_extension(email)
