@@ -17,7 +17,7 @@ module NOBSPW
       @min_unique_characters    = 5
       @dictionary_path          = File.join(File.dirname(__FILE__), "..", "db", "dictionary.txt")
       @grep_path                = `which grep`.strip
-      @use_ruby_grep            = !@grep_path.present?
+      @use_ruby_grep            = @grep_path.empty?
       @domain_name              = nil
       @blacklist                = nil
       @validation_methods       = NOBSPW::ValidationMethods::DEFAULT_VALIDATION_METHODS
