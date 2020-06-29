@@ -1,4 +1,5 @@
 require_relative '../../../lib/nobspw'
+require 'securerandom'
 
 RSpec.describe NOBSPW::PasswordChecker do
   let(:pc) do
@@ -48,7 +49,7 @@ RSpec.describe NOBSPW::PasswordChecker do
     context 'password is too long' do
       let(:password) do
         length = NOBSPW.configuration.max_password_length + 1
-        rand(36**length).to_s(36)
+        SecureRandom.alphanumeric(length)
       end
 
       it 'fails as it should' do
