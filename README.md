@@ -13,9 +13,9 @@ Instead, it validates your user's password against a few important criteria. Thi
 
 The criteria currently are:
 
-- minimum (and maximum) length. 10 characters is the recommended minimum and is the default value
-- common passwords from a dictionary of the 100,000 most common passwords (or your own dictionary)
-- basic entropy (not too many of the same character)
+- enforce minimum (and maximum) length. 10 characters is the recommended minimum and is the default value
+- reject common passwords from a dictionary of the 100,000 most common passwords (or your own dictionary)
+- requires basic entropy (not too many of the same character)
 - reject special case passwords such as the user's name, email, domain of the site/app
 
 This software was inspired by [Password Rules are Bullshit](https://blog.codinghorror.com/password-rules-are-bullshit/) by Jeff Atwood.
