@@ -19,7 +19,7 @@ class ActiveModel::Validations::PasswordValidator < ActiveModel::EachValidator
                                      username: username_value(record)
 
     pc.weak_password_reasons.each do |reason|
-      record.errors[attribute] << get_message(reason)
+      record.errors.add(attribute, get_message(reason))
     end
     pc.strong?
   end
